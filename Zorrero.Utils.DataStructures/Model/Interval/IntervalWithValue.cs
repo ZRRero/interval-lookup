@@ -12,7 +12,7 @@ namespace Zorrero.Utils.DataStructures.Model.Interval
 
         public IntervalWithValue(T init, T end, TK value)
         {
-            if(init.CompareTo(end) > 0) throw new InvalidInterval();
+            if(init.CompareTo(end) > 0) throw new InvalidIntervalException();
             Init = init;
             End = end;
             Value = value;

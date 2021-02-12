@@ -22,7 +22,7 @@ namespace Zorrero.Utils.DataStructures.Model.Interval
         public ImmutableIntervalBalancedTree(IEnumerable<IntervalWithValue<T, TK>> intervals)
         {
             var sortedIntervals = intervals.OrderBy(interval => interval).ToList();
-            _root = BuildTreeNode(sortedIntervals, 0, sortedIntervals.Count);
+            _root = BuildTreeNode(sortedIntervals, 0, sortedIntervals.Count - 1);
         }
 
         public List<IntervalWithValue<T, TK>> Search(T value, bool includeInit, bool includeEnd)
