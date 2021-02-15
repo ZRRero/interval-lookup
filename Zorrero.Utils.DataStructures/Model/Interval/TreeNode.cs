@@ -23,10 +23,10 @@ namespace Zorrero.Utils.DataStructures.Model.Interval
             switch (intervalEvaluation)
             {
                 case IntervalResult.UNDER:
-                    _right?.Search(foundIntervals, value, includeInit, includeEnd);
+                    _left?.Search(foundIntervals, value, includeInit, includeEnd);
                     break;
                 case IntervalResult.UPPER:
-                    _left?.Search(foundIntervals, value, includeInit, includeEnd);
+                    _right?.Search(foundIntervals, value, includeInit, includeEnd);
                     break;
                 case IntervalResult.CONTAINED:
                     foundIntervals.Add(_interval);
@@ -36,6 +36,24 @@ namespace Zorrero.Utils.DataStructures.Model.Interval
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+        }
+
+        private bool Equals(TreeNode<T, TK> other)
+        {
+            return Equals(_interval, other._interval) && Equals(_left, other._left) && Equals(_right, other._right);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((TreeNode<T, TK>) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(_interval, _left, _right);
         }
     }
 }

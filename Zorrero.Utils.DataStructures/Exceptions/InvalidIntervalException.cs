@@ -2,7 +2,7 @@
 
  namespace Zorrero.Utils.DataStructures.Exceptions
 {
-    public class InvalidInterval : Exception
+    public class InvalidIntervalException : Exception
     {
     }
 }
