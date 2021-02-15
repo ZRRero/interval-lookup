@@ -23,10 +23,10 @@ namespace Zorrero.Utils.DataStructures.Model.Interval
             switch (intervalEvaluation)
             {
                 case IntervalResult.UNDER:
-                    _right?.Search(foundIntervals, value, includeInit, includeEnd);
+                    _left?.Search(foundIntervals, value, includeInit, includeEnd);
                     break;
                 case IntervalResult.UPPER:
-                    _left?.Search(foundIntervals, value, includeInit, includeEnd);
+                    _right?.Search(foundIntervals, value, includeInit, includeEnd);
                     break;
                 case IntervalResult.CONTAINED:
                     foundIntervals.Add(_interval);
