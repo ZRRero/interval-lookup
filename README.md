@@ -16,7 +16,7 @@ The objective of this library is to provide a way to search for values in interv
     * xunit 2.4.0
     * xunit.runner.visualstudio 2.4.0
     * coverlet.collector 1.2.0
-<a name="ImportantDetails"/>
+  <a name="ImportantDetails"/>
 ### Important details  
 * The provided data structure is immutable.
 * The interval may have associated a value from a different type of the init and end.
