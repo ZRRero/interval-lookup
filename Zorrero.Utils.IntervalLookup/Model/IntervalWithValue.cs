@@ -1,18 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using Zorrero.Utils.DataStructures.Exceptions;
+using Zorrero.Utils.IntervalLookup.Exceptions;
 
-namespace Zorrero.Utils.DataStructures.Model.Interval
+namespace Zorrero.Utils.IntervalLookup.Model
 {
-    public class IntervalWithValue<T, TK> : IComparable<IntervalWithValue<T, TK>> where T: IComparable<T> 
+    public class IntervalWithValue<T, TK> : IComparable<IntervalWithValue<T, TK>> where T : IComparable<T>
     {
-        public readonly T Init;
         public readonly T End;
+        public readonly T Init;
         public readonly TK Value;
 
         public IntervalWithValue(T init, T end, TK value)
         {
-            if(init.CompareTo(end) > 0) throw new InvalidIntervalException();
+            if (init.CompareTo(end) > 0) throw new InvalidIntervalException();
             Init = init;
             End = end;
             Value = value;
@@ -28,7 +28,7 @@ namespace Zorrero.Utils.DataStructures.Model.Interval
 
         public IntervalResult Evaluate(T toEvaluate, bool includeInit, bool includeEnd)
         {
-            if(includeInit)
+            if (includeInit)
             {
                 if (toEvaluate.CompareTo(Init) < 0) return IntervalResult.UNDER;
             }
@@ -45,19 +45,22 @@ namespace Zorrero.Utils.DataStructures.Model.Interval
             {
                 if (toEvaluate.CompareTo(End) >= 0) return IntervalResult.UPPER;
             }
+
             return IntervalResult.CONTAINED;
         }
 
         private bool Equals(IntervalWithValue<T, TK> other)
         {
-            return EqualityComparer<T>.Default.Equals(Init, other.Init) && EqualityComparer<T>.Default.Equals(End, other.End) && EqualityComparer<TK>.Default.Equals(Value, other.Value);
+            return EqualityComparer<T>.Default.Equals(Init, other.Init) &&
+                   EqualityComparer<T>.Default.Equals(End, other.End) &&
+                   EqualityComparer<TK>.Default.Equals(Value, other.Value);
         }
 
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != this.GetType()) return false;
+            if (obj.GetType() != GetType()) return false;
             return Equals((IntervalWithValue<T, TK>) obj);
         }
 

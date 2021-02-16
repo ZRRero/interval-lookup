@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Zorrero.Utils.DataStructures.Model.Interval
+namespace Zorrero.Utils.IntervalLookup.Model
 {
     public class TreeNode<T, TK> where T : IComparable<T>
     {
@@ -15,7 +15,7 @@ namespace Zorrero.Utils.DataStructures.Model.Interval
             _left = left;
             _right = right;
         }
-        
+
         public void Search(in List<IntervalWithValue<T, TK>> foundIntervals, T value, bool includeInit, bool includeEnd)
         {
             var intervalEvaluation = _interval.Evaluate(value, includeInit, includeEnd);
@@ -47,7 +47,7 @@ namespace Zorrero.Utils.DataStructures.Model.Interval
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != this.GetType()) return false;
+            if (obj.GetType() != GetType()) return false;
             return Equals((TreeNode<T, TK>) obj);
         }
 

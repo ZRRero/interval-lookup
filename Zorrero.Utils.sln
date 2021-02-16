@@ -1,8 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zorrero.Utils.DataStructures", "Zorrero.Utils.DataStructures\Zorrero.Utils.DataStructures.csproj", "{564828A2-0210-42B9-983B-E0BB64469933}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zorrero.Utils.IntervalLookup", "Zorrero.Utils.IntervalLookup\Zorrero.Utils.IntervalLookup.csproj", "{564828A2-0210-42B9-983B-E0BB64469933}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zorrero.Utils.DataStructures.Tests", "Zorrero.Utils.DataStructures.Tests\Zorrero.Utils.DataStructures.Tests.csproj", "{547EC888-EACC-4C2E-A60B-F11AC4362586}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zorrero.Utils.IntervalLookup.Tests", "Zorrero.Utils.IntervalLookup.Tests\Zorrero.Utils.IntervalLookup.Tests.csproj", "{547EC888-EACC-4C2E-A60B-F11AC4362586}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

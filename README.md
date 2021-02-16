@@ -1,11 +1,21 @@
 ##### Table of Contents  
 [Objective](#Objective)  
+[Dependencies](#Dependencies)    
 [Important details](#ImportantDetails)  
 [Implementation](#Implementation)  
 [Example](#Example)  
 
 ### Objective  
 The objective of this library is to provide a way to search for values in intervals.
+### Dependencies
+* Base library
+    * .net core 3.1
+* Tests
+    * .net core 3.1
+    * Microsoft.NET.Test.Sdk 16.5.0
+    * xunit 2.4.0
+    * xunit.runner.visualstudio 2.4.0
+    * coverlet.collector 1.2.0
 <a name="ImportantDetails"/>
 ### Important details  
 * The provided data structure is immutable.
@@ -43,7 +53,7 @@ var intervals = new List<Interval<long, string>>{
 };
 var tree = new ImmutableIntervalBalancedTree<long, string>(intervals);
 ```
-To do a search in the tree simply call the exposed method. This method receives the value to search, if the init value should be included as part of the interval and if the end value should be included as part of the interval. In this case init is excluded and end is included, the method returns a IEnumerable of intervals, being this result the IEnumerable of all intervals in the tree where the given value was contained.
+To do a search in the tree simply call the exposed method. This method receives the value to search, if the init value should be included as part of the interval and if the end value should be included as part of the interval. In this case init is excluded and end is included, the method returns a List of intervals, being this result the List of all intervals in the tree where the given value was contained.
 ```c#
 var result = tree.Search(2, includeInit: false, includeEnd: true);
 ```

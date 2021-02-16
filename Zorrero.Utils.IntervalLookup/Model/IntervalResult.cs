@@ -1,4 +1,4 @@
-﻿﻿namespace Zorrero.Utils.DataStructures.Model.Interval
+﻿namespace Zorrero.Utils.IntervalLookup.Model
 {
     public enum IntervalResult
     {

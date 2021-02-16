@@ -14,7 +14,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Zorrero.Utils.DataStructures\Zorrero.Utils.DataStructures.csproj" />
+      <ProjectReference Include="..\Zorrero.Utils.IntervalLookup\Zorrero.Utils.IntervalLookup.csproj" />
     </ItemGroup>
 
 </Project>
