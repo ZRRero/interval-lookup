@@ -8,6 +8,7 @@ namespace Zorrero.Utils.IntervalLookup.Model
         private readonly IntervalWithValue<T, TK> _interval;
         private readonly TreeNode<T, TK> _left;
         private readonly TreeNode<T, TK> _right;
+        internal IEnumerable<IntervalWithValue<T, TK>> Intervals => GetIntervals();
 
         public TreeNode(IntervalWithValue<T, TK> interval, TreeNode<T, TK> left, TreeNode<T, TK> right)
         {
@@ -54,6 +55,16 @@ namespace Zorrero.Utils.IntervalLookup.Model
         public override int GetHashCode()
         {
             return HashCode.Combine(_interval, _left, _right);
+        }
+        
+        private IEnumerable<IntervalWithValue<T, TK>> GetIntervals()
+        {
+            var leftIntervals = _left?.Intervals;
+            var rightIntervals = _right?.Intervals;
+            var nodeIntervals = new List<IntervalWithValue<T, TK>> {_interval};
+            nodeIntervals.AddRange(leftIntervals ?? new List<IntervalWithValue<T, TK>>());
+            nodeIntervals.AddRange(rightIntervals ?? new List<IntervalWithValue<T, TK>>());
+            return nodeIntervals;
         }
     }
 }

@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Zorrero.Utils.IntervalLookup.Model
 {
-    public class ImmutableIntervalBalancedTree<T, TK> where T : IComparable<T>
+    public class ImmutableIntervalBalancedTree<T, TK> : IEnumerable<IntervalWithValue<T, TK>> where T : IComparable<T>
     {
         public readonly TreeNode<T, TK> Root;
 
@@ -29,6 +30,16 @@ namespace Zorrero.Utils.IntervalLookup.Model
             var intervals = new List<IntervalWithValue<T, TK>>();
             Root.Search(intervals, value, includeInit, includeEnd);
             return intervals;
+        }
+
+        public IEnumerator<IntervalWithValue<T, TK>> GetEnumerator()
+        {
+            return Root.Intervals.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }
