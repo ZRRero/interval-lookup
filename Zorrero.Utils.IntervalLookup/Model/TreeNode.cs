@@ -9,6 +9,7 @@ namespace Zorrero.Utils.IntervalLookup.Model
         private readonly TreeNode<T, TK> _left;
         private readonly TreeNode<T, TK> _right;
         internal IEnumerable<IntervalWithValue<T, TK>> Intervals => GetIntervals();
+        internal int Count => CountRecursive();
 
         public TreeNode(IntervalWithValue<T, TK> interval, TreeNode<T, TK> left, TreeNode<T, TK> right)
         {
@@ -65,6 +66,11 @@ namespace Zorrero.Utils.IntervalLookup.Model
             nodeIntervals.AddRange(leftIntervals ?? new List<IntervalWithValue<T, TK>>());
             nodeIntervals.AddRange(rightIntervals ?? new List<IntervalWithValue<T, TK>>());
             return nodeIntervals;
+        }
+
+        private int CountRecursive()
+        {
+            return 1 + (_left?.Count ?? 0) + (_right?.Count ?? 0);
         }
     }
 }

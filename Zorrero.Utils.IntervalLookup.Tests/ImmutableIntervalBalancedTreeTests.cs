@@ -133,5 +133,33 @@ namespace Zorrero.Utils.IntervalLookup.Tests
             treeIntervals.Sort();
             Assert.Equal(treeIntervals, enumeratorList);
         }
+
+        [Fact]
+        public void ShouldCountCorrectlyItems()
+        {
+            var intervalNodeFour = new IntervalWithValue<long, long>(0, 5, 1);
+            var intervalNodeFive = new IntervalWithValue<long, long>(10, 15, 2);
+            var intervalNodeSix = new IntervalWithValue<long, long>(20, 25, 0);
+            var intervalNodeSeven = new IntervalWithValue<long, long>(30, 35, 0);
+            var intervalNodeTwo = new IntervalWithValue<long, long>(5, 10, 1);
+            var intervalNodeThree = new IntervalWithValue<long, long>(25, 30, 2);
+            var intervalNodeOne = new IntervalWithValue<long, long>(15, 20, 0);
+            var treeIntervals = new List<IntervalWithValue<long, long>>
+            {
+                intervalNodeOne, intervalNodeTwo, intervalNodeThree, intervalNodeFour, intervalNodeFive,
+                intervalNodeSix, intervalNodeSeven
+            };
+            var tree = new ImmutableIntervalBalancedTree<long, long>(treeIntervals);
+            Assert.Equal(7, tree.Count);
+        }
+        
+        [Fact]
+        public void ShouldCountCorrectlyLargeAmountOfIntervals()
+        {
+            var intervals = new List<IntervalWithValue<long, long>>();
+            for (var i = 0; i < 25000000; i += 25) intervals.Add(new IntervalWithValue<long, long>(i, i + 50, 0));
+            var tree = new ImmutableIntervalBalancedTree<long, long>(intervals);
+            Assert.Equal(1000000, tree.Count);
+        }
     }
 }

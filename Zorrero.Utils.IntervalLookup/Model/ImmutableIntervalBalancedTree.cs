@@ -5,9 +5,10 @@ using System.Linq;
 
 namespace Zorrero.Utils.IntervalLookup.Model
 {
-    public class ImmutableIntervalBalancedTree<T, TK> : IEnumerable<IntervalWithValue<T, TK>> where T : IComparable<T>
+    public class ImmutableIntervalBalancedTree<T, TK> : IReadOnlyCollection<IntervalWithValue<T, TK>> where T : IComparable<T>
     {
         public readonly TreeNode<T, TK> Root;
+        public int Count => Root.Count;
 
         public ImmutableIntervalBalancedTree(IEnumerable<IntervalWithValue<T, TK>> intervals)
         {
