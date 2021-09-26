@@ -12,7 +12,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: SonarScanner for .NET 5 with pull request decoration support
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: '0'
+    - name: SonarScanner
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
