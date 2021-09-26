@@ -4,13 +4,13 @@ using Zorrero.Utils.IntervalLookup.Exceptions;
 
 namespace Zorrero.Utils.IntervalLookup.Model
 {
-    public class IntervalWithValue<T, TK> : IComparable<IntervalWithValue<T, TK>> where T : IComparable<T>
+    public abstract class IntervalWithValue<T, TK> : IComparable<IntervalWithValue<T, TK>> where T : IComparable<T>
     {
         public readonly T End;
         public readonly T Init;
         public readonly TK Value;
 
-        public IntervalWithValue(T init, T end, TK value)
+        protected IntervalWithValue(T init, T end, TK value)
         {
             if (init.CompareTo(end) > 0) throw new InvalidIntervalException();
             Init = init;
@@ -18,13 +18,7 @@ namespace Zorrero.Utils.IntervalLookup.Model
             Value = value;
         }
 
-        public int CompareTo(IntervalWithValue<T, TK> other)
-        {
-            if (Init.CompareTo(other.Init) == 0 && End.CompareTo(other.End) == 0) return 0;
-            if (Init.CompareTo(other.Init) > 0) return 1;
-            if (End.CompareTo(other.End) < 0) return -1;
-            return 0;
-        }
+        public abstract int CompareTo(IntervalWithValue<T, TK> other);
 
         public IntervalResult Evaluate(T toEvaluate, bool includeInit, bool includeEnd)
         {
