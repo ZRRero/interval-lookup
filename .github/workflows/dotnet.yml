@@ -16,10 +16,10 @@ jobs:
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      uses: highbyte/sonarscan-dotnet@2.0
+      uses: highbyte/sonarscan-dotnet@1.0.2
       with:
         # The key of the SonarQube project
-        sonarProjectKey: interval-lookup
+        sonarProjectKey: ZRRero_interval-lookup
         # The name of the SonarQube project
         sonarProjectName: interval-lookup
         # The name of the SonarQube organization in SonarCloud. For hosted SonarQube, skip this setting.
