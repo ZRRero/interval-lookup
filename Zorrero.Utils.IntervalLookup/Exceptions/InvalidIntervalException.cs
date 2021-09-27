@@ -2,8 +2,7 @@
 
 namespace Zorrero.Utils.IntervalLookup.Exceptions
 {
-    [Serializable]
-    public sealed class InvalidIntervalException : Exception
+    public class InvalidIntervalException : Exception
     {
     }
 }
