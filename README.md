@@ -20,10 +20,11 @@ The objective of this library is to provide a way to search for values in interv
 ### Important details  
 * The provided data structure is immutable.
 * The interval may have associated a value from a different type of the init and end.
-* Intervals may be overlapped.
+* Intervals may be overlapped, this option can be changed by activating overlapping detection.
 * An interval is considered greater than other interval if its end value is greater than the others interval end value.
 * An interval is considered lower than other interval if its init value is greater than the others interval init value.
 * An interval internal value is not taken in account while evaluating the interval, its only purpose is to me stored and queried.
+* The provided data structure implements IReadOnlyCollection, meaning it can't be modified after creation, but it allows LINQ operations.
   
 ### Implementation  
 The library uses a balanced binary tree to locate the intervals and searches over the nodes for matching intervals given a value T.
@@ -42,16 +43,19 @@ The Tree is the actual class used to do the search, it receives a IEnumerable of
 ```c#
 var tree = new ImmutableIntervalBalancedTree<long, MyClass>(intervals);
 ```
+The Tree also offers a validation in the constructor to detect overlapping intervals, to activate this function pass a boolean as second parameter to the constructor (By default is false), if validation is unsuccessfull a IntervalOverlappedException will be thrown.  
 
 ### Example
 Suppose you want to search among intervals of long with a string value, then the definition would be like
 ```c#
 var intervals = new List<Interval<long, string>>{
-  new Interval<long, string>(0,5,""),
-  new Interval<long, string>(4,10,""),
-  new Interval<long, string>(15,25,"")
+  new IntervalWithValue<long, string>(0,5,""),
+  new IntervalWithValue<long, string>(4,10,""),
+  new IntervalWithValue<long, string>(15,25,"")
 };
 var tree = new ImmutableIntervalBalancedTree<long, string>(intervals);
+//Tree with overlapping validation
+var tree = new ImmutableIntervalBalancedTree<long, string>(intervals, true);
 ```
 To do a search in the tree simply call the exposed method. This method receives the value to search, if the init value should be included as part of the interval and if the end value should be included as part of the interval. In this case init is excluded and end is included, the method returns a List of intervals, being this result the List of all intervals in the tree where the given value was contained.
 ```c#
