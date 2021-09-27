@@ -5,12 +5,12 @@ using Zorrero.Utils.IntervalLookup.Model;
 
 namespace Zorrero.Utils.IntervalLookup.Tests
 {
-    public class OverlappedTreeNodeTests
+    public class TreeNodeTests
     {
         [Fact]
         public void ShouldReturnTheIntervalInOneNode()
         {
-            var interval = new OverlappedIntervalWithValue<long, long>(1, 5, 0);
+            var interval = new IntervalWithValue<long, long>(1, 5, 0);
             var node = new TreeNode<long, long>(interval, null, null);
             var intervals = new List<IntervalWithValue<long, long>>();
             node.Search(intervals, 3, false, false);
@@ -21,11 +21,11 @@ namespace Zorrero.Utils.IntervalLookup.Tests
         [Fact]
         public void ShouldReturnTheLeftIntervalInNodeWithTwoChildren()
         {
-            var intervalNodeTwo = new OverlappedIntervalWithValue<long, long>(0, 5, 1);
+            var intervalNodeTwo = new IntervalWithValue<long, long>(0, 5, 1);
             var nodeTwo = new TreeNode<long, long>(intervalNodeTwo, null, null);
-            var intervalNodeThree = new OverlappedIntervalWithValue<long, long>(10, 15, 2);
+            var intervalNodeThree = new IntervalWithValue<long, long>(10, 15, 2);
             var nodeThree = new TreeNode<long, long>(intervalNodeThree, null, null);
-            var intervalNodeOne = new OverlappedIntervalWithValue<long, long>(5, 10, 0);
+            var intervalNodeOne = new IntervalWithValue<long, long>(5, 10, 0);
             var nodeOne = new TreeNode<long, long>(intervalNodeOne, nodeTwo, nodeThree);
             var intervals = new List<IntervalWithValue<long, long>>();
             nodeOne.Search(intervals, 3, false, false);
@@ -36,11 +36,11 @@ namespace Zorrero.Utils.IntervalLookup.Tests
         [Fact]
         public void ShouldReturnTheRightIntervalInNodeWithTwoChildren()
         {
-            var intervalNodeTwo = new OverlappedIntervalWithValue<long, long>(0, 5, 1);
+            var intervalNodeTwo = new IntervalWithValue<long, long>(0, 5, 1);
             var nodeTwo = new TreeNode<long, long>(intervalNodeTwo, null, null);
-            var intervalNodeThree = new OverlappedIntervalWithValue<long, long>(10, 15, 2);
+            var intervalNodeThree = new IntervalWithValue<long, long>(10, 15, 2);
             var nodeThree = new TreeNode<long, long>(intervalNodeThree, null, null);
-            var intervalNodeOne = new OverlappedIntervalWithValue<long, long>(5, 10, 0);
+            var intervalNodeOne = new IntervalWithValue<long, long>(5, 10, 0);
             var nodeOne = new TreeNode<long, long>(intervalNodeOne, nodeTwo, nodeThree);
             var intervals = new List<IntervalWithValue<long, long>>();
             nodeOne.Search(intervals, 12, false, false);
@@ -51,11 +51,11 @@ namespace Zorrero.Utils.IntervalLookup.Tests
         [Fact]
         public void ShouldReturnTwoOverlappedIntervalsInNodeWithTwoChildren()
         {
-            var intervalNodeTwo = new OverlappedIntervalWithValue<long, long>(0, 5, 1);
+            var intervalNodeTwo = new IntervalWithValue<long, long>(0, 5, 1);
             var nodeTwo = new TreeNode<long, long>(intervalNodeTwo, null, null);
-            var intervalNodeThree = new OverlappedIntervalWithValue<long, long>(10, 15, 2);
+            var intervalNodeThree = new IntervalWithValue<long, long>(10, 15, 2);
             var nodeThree = new TreeNode<long, long>(intervalNodeThree, null, null);
-            var intervalNodeOne = new OverlappedIntervalWithValue<long, long>(5, 10, 0);
+            var intervalNodeOne = new IntervalWithValue<long, long>(5, 10, 0);
             var nodeOne = new TreeNode<long, long>(intervalNodeOne, nodeTwo, nodeThree);
             var intervals = new List<IntervalWithValue<long, long>>();
             nodeOne.Search(intervals, 5, true, true);
@@ -67,19 +67,19 @@ namespace Zorrero.Utils.IntervalLookup.Tests
         [Fact]
         public void ShouldSearchCorrectIntervalInAllLayersNodeOverlapped()
         {
-            var intervalNodeFour = new OverlappedIntervalWithValue<long, long>(0, 5, 1);
+            var intervalNodeFour = new IntervalWithValue<long, long>(0, 5, 1);
             var nodeFour = new TreeNode<long, long>(intervalNodeFour, null, null);
-            var intervalNodeFive = new OverlappedIntervalWithValue<long, long>(0, 5, 1);
+            var intervalNodeFive = new IntervalWithValue<long, long>(0, 5, 1);
             var nodeFive = new TreeNode<long, long>(intervalNodeFive, null, null);
-            var intervalNodeSix = new OverlappedIntervalWithValue<long, long>(0, 5, 1);
+            var intervalNodeSix = new IntervalWithValue<long, long>(0, 5, 1);
             var nodeSix = new TreeNode<long, long>(intervalNodeSix, null, null);
-            var intervalNodeSeven = new OverlappedIntervalWithValue<long, long>(0, 5, 1);
+            var intervalNodeSeven = new IntervalWithValue<long, long>(0, 5, 1);
             var nodeSeven = new TreeNode<long, long>(intervalNodeSeven, null, null);
-            var intervalNodeTwo = new OverlappedIntervalWithValue<long, long>(0, 5, 1);
+            var intervalNodeTwo = new IntervalWithValue<long, long>(0, 5, 1);
             var nodeTwo = new TreeNode<long, long>(intervalNodeTwo, nodeFour, nodeFive);
-            var intervalNodeThree = new OverlappedIntervalWithValue<long, long>(0, 5, 1);
+            var intervalNodeThree = new IntervalWithValue<long, long>(0, 5, 1);
             var nodeThree = new TreeNode<long, long>(intervalNodeThree, nodeSix, nodeSeven);
-            var intervalNodeOne = new OverlappedIntervalWithValue<long, long>(0, 5, 1);
+            var intervalNodeOne = new IntervalWithValue<long, long>(0, 5, 1);
             var nodeOne = new TreeNode<long, long>(intervalNodeOne, nodeTwo, nodeThree);
             var expectedIntervals = new List<IntervalWithValue<long, long>>
             {
@@ -101,19 +101,19 @@ namespace Zorrero.Utils.IntervalLookup.Tests
         [Fact]
         public void ShouldSearchCorrectIntervalInMultipleLayerNodeFirstLayer()
         {
-            var intervalNodeFour = new OverlappedIntervalWithValue<long, long>(0, 5, 1);
+            var intervalNodeFour = new IntervalWithValue<long, long>(0, 5, 1);
             var nodeFour = new TreeNode<long, long>(intervalNodeFour, null, null);
-            var intervalNodeFive = new OverlappedIntervalWithValue<long, long>(10, 15, 2);
+            var intervalNodeFive = new IntervalWithValue<long, long>(10, 15, 2);
             var nodeFive = new TreeNode<long, long>(intervalNodeFive, null, null);
-            var intervalNodeSix = new OverlappedIntervalWithValue<long, long>(20, 25, 0);
+            var intervalNodeSix = new IntervalWithValue<long, long>(20, 25, 0);
             var nodeSix = new TreeNode<long, long>(intervalNodeSix, null, null);
-            var intervalNodeSeven = new OverlappedIntervalWithValue<long, long>(30, 35, 0);
+            var intervalNodeSeven = new IntervalWithValue<long, long>(30, 35, 0);
             var nodeSeven = new TreeNode<long, long>(intervalNodeSeven, null, null);
-            var intervalNodeTwo = new OverlappedIntervalWithValue<long, long>(5, 10, 1);
+            var intervalNodeTwo = new IntervalWithValue<long, long>(5, 10, 1);
             var nodeTwo = new TreeNode<long, long>(intervalNodeTwo, nodeFour, nodeFive);
-            var intervalNodeThree = new OverlappedIntervalWithValue<long, long>(25, 30, 2);
+            var intervalNodeThree = new IntervalWithValue<long, long>(25, 30, 2);
             var nodeThree = new TreeNode<long, long>(intervalNodeThree, nodeSix, nodeSeven);
-            var intervalNodeOne = new OverlappedIntervalWithValue<long, long>(15, 20, 0);
+            var intervalNodeOne = new IntervalWithValue<long, long>(15, 20, 0);
             var nodeOne = new TreeNode<long, long>(intervalNodeOne, nodeTwo, nodeThree);
             var intervals = new List<IntervalWithValue<long, long>>();
             nodeOne.Search(intervals, 7, false, false);
@@ -124,19 +124,19 @@ namespace Zorrero.Utils.IntervalLookup.Tests
         [Fact]
         public void ShouldSearchCorrectIntervalInMultipleLayerNodeLastLayer()
         {
-            var intervalNodeFour = new OverlappedIntervalWithValue<long, long>(0, 5, 1);
+            var intervalNodeFour = new IntervalWithValue<long, long>(0, 5, 1);
             var nodeFour = new TreeNode<long, long>(intervalNodeFour, null, null);
-            var intervalNodeFive = new OverlappedIntervalWithValue<long, long>(10, 15, 2);
+            var intervalNodeFive = new IntervalWithValue<long, long>(10, 15, 2);
             var nodeFive = new TreeNode<long, long>(intervalNodeFive, null, null);
-            var intervalNodeSix = new OverlappedIntervalWithValue<long, long>(20, 25, 0);
+            var intervalNodeSix = new IntervalWithValue<long, long>(20, 25, 0);
             var nodeSix = new TreeNode<long, long>(intervalNodeSix, null, null);
-            var intervalNodeSeven = new OverlappedIntervalWithValue<long, long>(30, 35, 0);
+            var intervalNodeSeven = new IntervalWithValue<long, long>(30, 35, 0);
             var nodeSeven = new TreeNode<long, long>(intervalNodeSeven, null, null);
-            var intervalNodeTwo = new OverlappedIntervalWithValue<long, long>(5, 10, 1);
+            var intervalNodeTwo = new IntervalWithValue<long, long>(5, 10, 1);
             var nodeTwo = new TreeNode<long, long>(intervalNodeTwo, nodeFour, nodeFive);
-            var intervalNodeThree = new OverlappedIntervalWithValue<long, long>(25, 30, 2);
+            var intervalNodeThree = new IntervalWithValue<long, long>(25, 30, 2);
             var nodeThree = new TreeNode<long, long>(intervalNodeThree, nodeSix, nodeSeven);
-            var intervalNodeOne = new OverlappedIntervalWithValue<long, long>(15, 20, 0);
+            var intervalNodeOne = new IntervalWithValue<long, long>(15, 20, 0);
             var nodeOne = new TreeNode<long, long>(intervalNodeOne, nodeTwo, nodeThree);
             var intervals = new List<IntervalWithValue<long, long>>();
             nodeOne.Search(intervals, 33, false, false);
@@ -147,19 +147,19 @@ namespace Zorrero.Utils.IntervalLookup.Tests
         [Fact]
         public void ShouldSearchCorrectIntervalInMultipleLayerNodeOverlappedLayers()
         {
-            var intervalNodeFour = new OverlappedIntervalWithValue<long, long>(0, 5, 1);
+            var intervalNodeFour = new IntervalWithValue<long, long>(0, 5, 1);
             var nodeFour = new TreeNode<long, long>(intervalNodeFour, null, null);
-            var intervalNodeFive = new OverlappedIntervalWithValue<long, long>(10, 15, 2);
+            var intervalNodeFive = new IntervalWithValue<long, long>(10, 15, 2);
             var nodeFive = new TreeNode<long, long>(intervalNodeFive, null, null);
-            var intervalNodeSix = new OverlappedIntervalWithValue<long, long>(20, 25, 0);
+            var intervalNodeSix = new IntervalWithValue<long, long>(20, 25, 0);
             var nodeSix = new TreeNode<long, long>(intervalNodeSix, null, null);
-            var intervalNodeSeven = new OverlappedIntervalWithValue<long, long>(30, 35, 0);
+            var intervalNodeSeven = new IntervalWithValue<long, long>(30, 35, 0);
             var nodeSeven = new TreeNode<long, long>(intervalNodeSeven, null, null);
-            var intervalNodeTwo = new OverlappedIntervalWithValue<long, long>(5, 10, 1);
+            var intervalNodeTwo = new IntervalWithValue<long, long>(5, 10, 1);
             var nodeTwo = new TreeNode<long, long>(intervalNodeTwo, nodeFour, nodeFive);
-            var intervalNodeThree = new OverlappedIntervalWithValue<long, long>(25, 30, 2);
+            var intervalNodeThree = new IntervalWithValue<long, long>(25, 30, 2);
             var nodeThree = new TreeNode<long, long>(intervalNodeThree, nodeSix, nodeSeven);
-            var intervalNodeOne = new OverlappedIntervalWithValue<long, long>(15, 20, 0);
+            var intervalNodeOne = new IntervalWithValue<long, long>(15, 20, 0);
             var nodeOne = new TreeNode<long, long>(intervalNodeOne, nodeTwo, nodeThree);
             var intervals = new List<IntervalWithValue<long, long>>();
             nodeOne.Search(intervals, 5, true, true);
@@ -171,19 +171,19 @@ namespace Zorrero.Utils.IntervalLookup.Tests
         [Fact]
         public void ShouldSearchCorrectlyOnSpacedIntervals()
         {
-            var intervalNodeFour = new OverlappedIntervalWithValue<long, long>(0, 5, 1);
+            var intervalNodeFour = new IntervalWithValue<long, long>(0, 5, 1);
             var nodeFour = new TreeNode<long, long>(intervalNodeFour, null, null);
-            var intervalNodeFive = new OverlappedIntervalWithValue<long, long>(11, 15, 2);
+            var intervalNodeFive = new IntervalWithValue<long, long>(11, 15, 2);
             var nodeFive = new TreeNode<long, long>(intervalNodeFive, null, null);
-            var intervalNodeSix = new OverlappedIntervalWithValue<long, long>(21, 25, 0);
+            var intervalNodeSix = new IntervalWithValue<long, long>(21, 25, 0);
             var nodeSix = new TreeNode<long, long>(intervalNodeSix, null, null);
-            var intervalNodeSeven = new OverlappedIntervalWithValue<long, long>(31, 35, 0);
+            var intervalNodeSeven = new IntervalWithValue<long, long>(31, 35, 0);
             var nodeSeven = new TreeNode<long, long>(intervalNodeSeven, null, null);
-            var intervalNodeTwo = new OverlappedIntervalWithValue<long, long>(6, 10, 1);
+            var intervalNodeTwo = new IntervalWithValue<long, long>(6, 10, 1);
             var nodeTwo = new TreeNode<long, long>(intervalNodeTwo, nodeFour, nodeFive);
-            var intervalNodeThree = new OverlappedIntervalWithValue<long, long>(26, 30, 2);
+            var intervalNodeThree = new IntervalWithValue<long, long>(26, 30, 2);
             var nodeThree = new TreeNode<long, long>(intervalNodeThree, nodeSix, nodeSeven);
-            var intervalNodeOne = new OverlappedIntervalWithValue<long, long>(16, 20, 0);
+            var intervalNodeOne = new IntervalWithValue<long, long>(16, 20, 0);
             var nodeOne = new TreeNode<long, long>(intervalNodeOne, nodeTwo, nodeThree);
             var intervals = new List<IntervalWithValue<long, long>>();
             nodeOne.Search(intervals, 7, false, false);
