@@ -2,7 +2,8 @@
 
 namespace Zorrero.Utils.IntervalLookup.Exceptions
 {
-    public class IntervalsOverlappedException: Exception
+    [Serializable]
+    public sealed class IntervalsOverlappedException: Exception
     {
         public IntervalsOverlappedException(string message) : base(message)
         {
