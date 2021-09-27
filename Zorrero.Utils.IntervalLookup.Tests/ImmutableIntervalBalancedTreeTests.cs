@@ -1,18 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 using Xunit.Abstractions;
+using Zorrero.Utils.IntervalLookup.Exceptions;
 using Zorrero.Utils.IntervalLookup.Model;
 
 namespace Zorrero.Utils.IntervalLookup.Tests
 {
     public class ImmutableIntervalBalancedTreeTests
     {
-        private readonly ITestOutputHelper _testOutputHelper;
-
         public ImmutableIntervalBalancedTreeTests(ITestOutputHelper testOutputHelper)
         {
-            _testOutputHelper = testOutputHelper;
         }
 
         [Fact]
@@ -160,6 +159,79 @@ namespace Zorrero.Utils.IntervalLookup.Tests
             for (var i = 0; i < 25000000; i += 25) intervals.Add(new IntervalWithValue<long, long>(i, i + 50, 0));
             var tree = new ImmutableIntervalBalancedTree<long, long>(intervals);
             Assert.Equal(1000000, tree.Count);
+        }
+
+        [Fact]
+        public void ShouldGenerateCorrectlyTreeWithOverlappingCheckOnNoIntervalsOverlapped()
+        {
+            var intervalNodeFour = new IntervalWithValue<long, long>(0, 5, 1);
+            var intervalNodeFive = new IntervalWithValue<long, long>(10, 15, 2);
+            var intervalNodeSix = new IntervalWithValue<long, long>(20, 25, 0);
+            var intervalNodeSeven = new IntervalWithValue<long, long>(30, 35, 0);
+            var intervalNodeTwo = new IntervalWithValue<long, long>(5, 10, 1);
+            var intervalNodeThree = new IntervalWithValue<long, long>(25, 30, 2);
+            var intervalNodeOne = new IntervalWithValue<long, long>(15, 20, 0);
+            var treeIntervals = new List<IntervalWithValue<long, long>>
+            {
+                intervalNodeOne, intervalNodeTwo, intervalNodeThree, intervalNodeFour, intervalNodeFive,
+                intervalNodeSix, intervalNodeSeven
+            };
+            var tree = new ImmutableIntervalBalancedTree<long, long>(treeIntervals, true);
+            Assert.Equal(7, tree.Count);
+        }
+        
+        [Fact]
+        public void ShouldThrowExceptionWithOverlappingCheckOnOneIntervalOverlapped()
+        {
+            var intervalNodeFour = new IntervalWithValue<long, long>(0, 5, 1);
+            var intervalNodeFive = new IntervalWithValue<long, long>(9, 15, 2);
+            var intervalNodeSix = new IntervalWithValue<long, long>(20, 25, 0);
+            var intervalNodeSeven = new IntervalWithValue<long, long>(30, 35, 0);
+            var intervalNodeTwo = new IntervalWithValue<long, long>(5, 10, 1);
+            var intervalNodeThree = new IntervalWithValue<long, long>(25, 30, 2);
+            var intervalNodeOne = new IntervalWithValue<long, long>(15, 20, 0);
+            var treeIntervals = new List<IntervalWithValue<long, long>>
+            {
+                intervalNodeOne, intervalNodeTwo, intervalNodeThree, intervalNodeFour, intervalNodeFive,
+                intervalNodeSix, intervalNodeSeven
+            };
+            Assert.Throws<IntervalsOverlappedException>(() => new ImmutableIntervalBalancedTree<long, long>(treeIntervals, true));
+        }
+        
+        [Fact]
+        public void ShouldThrowExceptionWithOverlappingCheckOnAllIntervalOverlapped()
+        {
+            var intervalNodeFour = new IntervalWithValue<long, long>(0, 5, 1);
+            var intervalNodeFive = new IntervalWithValue<long, long>(0, 5, 2);
+            var intervalNodeSix = new IntervalWithValue<long, long>(0, 5, 3);
+            var intervalNodeSeven = new IntervalWithValue<long, long>(0, 5, 4);
+            var intervalNodeTwo = new IntervalWithValue<long, long>(0, 5, 5);
+            var intervalNodeThree = new IntervalWithValue<long, long>(0, 5, 6);
+            var intervalNodeOne = new IntervalWithValue<long, long>(0, 5, 7);
+            var treeIntervals = new List<IntervalWithValue<long, long>>
+            {
+                intervalNodeOne, intervalNodeTwo, intervalNodeThree, intervalNodeFour, intervalNodeFive,
+                intervalNodeSix, intervalNodeSeven
+            };
+            Assert.Throws<IntervalsOverlappedException>(() => new ImmutableIntervalBalancedTree<long, long>(treeIntervals, true));
+        }
+        
+        [Fact]
+        public void ShouldThrowExceptionWithOverlappingCheckOnContainedIntervalsOverlapped()
+        {
+            var intervalNodeFour = new IntervalWithValue<long, long>(1, 15, 1);
+            var intervalNodeFive = new IntervalWithValue<long, long>(2, 3, 2);
+            var intervalNodeSix = new IntervalWithValue<long, long>(4, 5, 3);
+            var intervalNodeSeven = new IntervalWithValue<long, long>(6, 7, 4);
+            var intervalNodeTwo = new IntervalWithValue<long, long>(8, 9, 5);
+            var intervalNodeThree = new IntervalWithValue<long, long>(10, 11, 6);
+            var intervalNodeOne = new IntervalWithValue<long, long>(12, 13, 7);
+            var treeIntervals = new List<IntervalWithValue<long, long>>
+            {
+                intervalNodeOne, intervalNodeTwo, intervalNodeThree, intervalNodeFour, intervalNodeFive,
+                intervalNodeSix, intervalNodeSeven
+            };
+            Assert.Throws<IntervalsOverlappedException>(() => new ImmutableIntervalBalancedTree<long, long>(treeIntervals, true));
         }
     }
 }

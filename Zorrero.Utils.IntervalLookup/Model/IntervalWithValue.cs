@@ -26,6 +26,11 @@ namespace Zorrero.Utils.IntervalLookup.Model
             return 0;
         }
 
+        public bool IsOverlapped(IntervalWithValue<T, TK> other)
+        {
+            return !(Init.CompareTo(other.End) >= 0 || End.CompareTo(other.Init) <= 0);
+        }
+
         public IntervalResult Evaluate(T toEvaluate, bool includeInit, bool includeEnd)
         {
             if (includeInit)
