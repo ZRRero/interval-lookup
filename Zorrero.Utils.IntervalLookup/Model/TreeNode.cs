@@ -48,8 +48,7 @@ namespace Zorrero.Utils.IntervalLookup.Model
             {
                 IntervalResult.UNDER => _left?.Search(value, includeInit, includeEnd),
                 IntervalResult.UPPER => _right?.Search(value, includeInit, includeEnd),
-                IntervalResult.CONTAINED => _interval,
-                _ => throw new ArgumentOutOfRangeException(nameof(intervalEvaluation))
+                IntervalResult.CONTAINED => _interval
             };
         }
 
