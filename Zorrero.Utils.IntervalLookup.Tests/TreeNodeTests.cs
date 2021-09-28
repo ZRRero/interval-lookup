@@ -19,6 +19,24 @@ namespace Zorrero.Utils.IntervalLookup.Tests
         }
 
         [Fact]
+        public void ShouldReturnNullOnLeftNullLeafAndLookingUnder()
+        {
+            var interval = new IntervalWithValue<long, long>(1, 5, 0);
+            var node = new TreeNode<long, long>(interval, null, null);
+            var result = node.Search(-1, false, false);
+            Assert.Null(result);
+        }
+        
+        [Fact]
+        public void ShouldReturnNullOnRightNullLeafAndLookingUpper()
+        {
+            var interval = new IntervalWithValue<long, long>(1, 5, 0);
+            var node = new TreeNode<long, long>(interval, null, null);
+            var result = node.Search(10, false, false);
+            Assert.Null(result);
+        }
+
+        [Fact]
         public void ShouldReturnTheLeftIntervalInNodeWithTwoChildren()
         {
             var intervalNodeTwo = new IntervalWithValue<long, long>(0, 5, 1);
