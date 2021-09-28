@@ -40,6 +40,19 @@ namespace Zorrero.Utils.IntervalLookup.Model
             }
         }
 
+        public IntervalWithValue<T, TK> Search(T value, bool includeInit, bool includeEnd)
+        {
+            var intervalEvaluation = _interval.Evaluate(value, includeInit, includeEnd);
+
+            return intervalEvaluation switch
+            {
+                IntervalResult.UNDER => _left?.Search(value, includeInit, includeEnd),
+                IntervalResult.UPPER => _right?.Search(value, includeInit, includeEnd),
+                IntervalResult.CONTAINED => _interval,
+                _ => throw new ArgumentOutOfRangeException()
+            };
+        }
+
         private bool Equals(TreeNode<T, TK> other)
         {
             return Equals(_interval, other._interval) && Equals(_left, other._left) && Equals(_right, other._right);
