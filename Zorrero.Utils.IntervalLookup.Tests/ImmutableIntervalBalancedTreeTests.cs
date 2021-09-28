@@ -108,6 +108,18 @@ namespace Zorrero.Utils.IntervalLookup.Tests
         }
         
         [Fact]
+        public void ShouldSearchFirstInLargeAmountOfExclusiveIntervalsUpper()
+        {
+            var intervals = new List<IntervalWithValue<long, long>>();
+            for (var i = 0; i < 50000000; i += 50) intervals.Add(new IntervalWithValue<long, long>(i, i + 50, 0));
+            var tree = new ImmutableIntervalBalancedTree<long, long>(intervals);
+            var expected = new IntervalWithValue<long, long>(49999900, 50000000, 0);
+
+            var result = tree.SearchFirst(49999925, false, false);
+            Assert.Equal(expected, result);
+        }
+        
+        [Fact]
         public void ShouldGetNullFirstInLargeAmountOfExclusiveIntervals()
         {
             var intervals = new List<IntervalWithValue<long, long>>();
