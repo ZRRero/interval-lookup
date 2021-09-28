@@ -44,17 +44,13 @@ namespace Zorrero.Utils.IntervalLookup.Model
         {
             var intervalEvaluation = _interval.Evaluate(value, includeInit, includeEnd);
 
-            switch (intervalEvaluation)
+            return intervalEvaluation switch
             {
-                case IntervalResult.UNDER:
-                    return _left?.Search(value, includeInit, includeEnd);
-                case IntervalResult.UPPER:
-                    return _right?.Search(value, includeInit, includeEnd);
-                case IntervalResult.CONTAINED:
-                    return _interval;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+                IntervalResult.UNDER => _left?.Search(value, includeInit, includeEnd),
+                IntervalResult.UPPER => _right?.Search(value, includeInit, includeEnd),
+                IntervalResult.CONTAINED => _interval,
+                _ => throw new ArgumentOutOfRangeException(nameof(intervalEvaluation))
+            };
         }
 
         private bool Equals(TreeNode<T, TK> other)
