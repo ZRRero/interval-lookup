@@ -53,6 +53,11 @@ namespace Zorrero.Utils.IntervalLookup.Model
             return intervals;
         }
 
+        public IntervalWithValue<T, TK> SearchFirst(T value, bool includeInit, bool includeEnd)
+        {
+            return Root.Search(value, includeInit, includeEnd);
+        }
+
         public IEnumerator<IntervalWithValue<T, TK>> GetEnumerator()
         {
             return Root.Intervals.GetEnumerator();
