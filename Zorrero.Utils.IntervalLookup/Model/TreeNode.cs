@@ -36,7 +36,24 @@ namespace Zorrero.Utils.IntervalLookup.Model
                     _left?.Search(foundIntervals, value, includeInit, includeEnd);
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    return;
+            }
+        }
+
+        public IntervalWithValue<T, TK> Search(T value, bool includeInit, bool includeEnd)
+        {
+            var intervalEvaluation = _interval.Evaluate(value, includeInit, includeEnd);
+
+            switch (intervalEvaluation)
+            {
+                case IntervalResult.UNDER:
+                    return _left?.Search(value, includeInit, includeEnd);
+                case IntervalResult.UPPER:
+                    return _right?.Search(value, includeInit, includeEnd);
+                case IntervalResult.CONTAINED:
+                    return _interval;
+                default:
+                    return null;
             }
         }
 
