@@ -190,5 +190,47 @@ namespace Zorrero.Utils.IntervalLookup.Tests
             Assert.Single(intervals);
             Assert.Equal(intervalNodeTwo, intervals.First());
         }
+        
+        [Fact]
+        public void ShouldSearchCorrectlyFirstOnSpacedIntervals()
+        {
+            var intervalNodeFour = new IntervalWithValue<long, long>(0, 5, 1);
+            var nodeFour = new TreeNode<long, long>(intervalNodeFour, null, null);
+            var intervalNodeFive = new IntervalWithValue<long, long>(11, 15, 2);
+            var nodeFive = new TreeNode<long, long>(intervalNodeFive, null, null);
+            var intervalNodeSix = new IntervalWithValue<long, long>(21, 25, 0);
+            var nodeSix = new TreeNode<long, long>(intervalNodeSix, null, null);
+            var intervalNodeSeven = new IntervalWithValue<long, long>(31, 35, 0);
+            var nodeSeven = new TreeNode<long, long>(intervalNodeSeven, null, null);
+            var intervalNodeTwo = new IntervalWithValue<long, long>(6, 10, 1);
+            var nodeTwo = new TreeNode<long, long>(intervalNodeTwo, nodeFour, nodeFive);
+            var intervalNodeThree = new IntervalWithValue<long, long>(26, 30, 2);
+            var nodeThree = new TreeNode<long, long>(intervalNodeThree, nodeSix, nodeSeven);
+            var intervalNodeOne = new IntervalWithValue<long, long>(16, 20, 0);
+            var nodeOne = new TreeNode<long, long>(intervalNodeOne, nodeTwo, nodeThree);
+            var result = nodeOne.Search(7, false, false);
+            Assert.Equal(intervalNodeTwo, result);
+        }
+        
+        [Fact]
+        public void ShouldSearchCorrectlyNullOnSpacedIntervals()
+        {
+            var intervalNodeFour = new IntervalWithValue<long, long>(0, 5, 1);
+            var nodeFour = new TreeNode<long, long>(intervalNodeFour, null, null);
+            var intervalNodeFive = new IntervalWithValue<long, long>(11, 15, 2);
+            var nodeFive = new TreeNode<long, long>(intervalNodeFive, null, null);
+            var intervalNodeSix = new IntervalWithValue<long, long>(21, 25, 0);
+            var nodeSix = new TreeNode<long, long>(intervalNodeSix, null, null);
+            var intervalNodeSeven = new IntervalWithValue<long, long>(31, 35, 0);
+            var nodeSeven = new TreeNode<long, long>(intervalNodeSeven, null, null);
+            var intervalNodeTwo = new IntervalWithValue<long, long>(6, 10, 1);
+            var nodeTwo = new TreeNode<long, long>(intervalNodeTwo, nodeFour, nodeFive);
+            var intervalNodeThree = new IntervalWithValue<long, long>(26, 30, 2);
+            var nodeThree = new TreeNode<long, long>(intervalNodeThree, nodeSix, nodeSeven);
+            var intervalNodeOne = new IntervalWithValue<long, long>(16, 20, 0);
+            var nodeOne = new TreeNode<long, long>(intervalNodeOne, nodeTwo, nodeThree);
+            var result = nodeOne.Search(-1, false, false);
+            Assert.Null(result);
+        }
     }
 }
