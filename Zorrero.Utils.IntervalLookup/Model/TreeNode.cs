@@ -89,5 +89,21 @@ namespace Zorrero.Utils.IntervalLookup.Model
         {
             return 1 + (_left?.Count ?? 0) + (_right?.Count ?? 0);
         }
+
+        public bool Contains(IntervalWithValue<T, TK> intervalWithValue)
+        {
+            var result = _interval.CompareTo(intervalWithValue);
+            switch (result)
+            {
+                case 0:
+                    return true;
+                case 1:
+                    return _left?.Contains(intervalWithValue) ?? false;
+                case -1:
+                    return _right?.Contains(intervalWithValue) ?? false;
+            }
+
+            return false;
+        }
     }
 }
