@@ -8,8 +8,6 @@ namespace Zorrero.Utils.IntervalLookup.Model
         private readonly IntervalWithValue<T, TK> _interval;
         private readonly TreeNode<T, TK> _left;
         private readonly TreeNode<T, TK> _right;
-        internal IEnumerable<IntervalWithValue<T, TK>> Intervals => GetIntervals();
-        internal int Count => CountRecursive();
 
         public TreeNode(IntervalWithValue<T, TK> interval, TreeNode<T, TK> left, TreeNode<T, TK> right)
         {
@@ -17,6 +15,9 @@ namespace Zorrero.Utils.IntervalLookup.Model
             _left = left;
             _right = right;
         }
+
+        internal IEnumerable<IntervalWithValue<T, TK>> Intervals => GetIntervals();
+        internal int Count => CountRecursive();
 
         public void Search(in List<IntervalWithValue<T, TK>> foundIntervals, T value, bool includeInit, bool includeEnd)
         {
@@ -74,7 +75,7 @@ namespace Zorrero.Utils.IntervalLookup.Model
         {
             return HashCode.Combine(_interval, _left, _right);
         }
-        
+
         private IEnumerable<IntervalWithValue<T, TK>> GetIntervals()
         {
             var leftIntervals = _left?.Intervals;
@@ -88,6 +89,22 @@ namespace Zorrero.Utils.IntervalLookup.Model
         private int CountRecursive()
         {
             return 1 + (_left?.Count ?? 0) + (_right?.Count ?? 0);
+        }
+
+        public bool Contains(IntervalWithValue<T, TK> intervalWithValue)
+        {
+            var result = _interval.CompareTo(intervalWithValue);
+            switch (result)
+            {
+                case 0:
+                    return true;
+                case 1:
+                    return _left?.Contains(intervalWithValue) ?? false;
+                case -1:
+                    return _right?.Contains(intervalWithValue) ?? false;
+            }
+
+            return false;
         }
     }
 }
