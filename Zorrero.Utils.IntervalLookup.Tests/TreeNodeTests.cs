@@ -26,7 +26,7 @@ namespace Zorrero.Utils.IntervalLookup.Tests
             var result = node.Search(-1, false, false);
             Assert.Null(result);
         }
-        
+
         [Fact]
         public void ShouldReturnNullOnRightNullLeafAndLookingUpper()
         {
@@ -208,7 +208,7 @@ namespace Zorrero.Utils.IntervalLookup.Tests
             Assert.Single(intervals);
             Assert.Equal(intervalNodeTwo, intervals.First());
         }
-        
+
         [Fact]
         public void ShouldSearchCorrectlyFirstOnSpacedIntervals()
         {
@@ -229,7 +229,7 @@ namespace Zorrero.Utils.IntervalLookup.Tests
             var result = nodeOne.Search(7, false, false);
             Assert.Equal(intervalNodeTwo, result);
         }
-        
+
         [Fact]
         public void ShouldSearchCorrectlyNullOnSpacedIntervals()
         {

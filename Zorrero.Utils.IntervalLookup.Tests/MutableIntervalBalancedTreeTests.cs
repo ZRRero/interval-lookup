@@ -1,38 +1,188 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Xunit;
-using Xunit.Abstractions;
 using Zorrero.Utils.IntervalLookup.Exceptions;
 using Zorrero.Utils.IntervalLookup.Model;
 
 namespace Zorrero.Utils.IntervalLookup.Tests
 {
-    public class ImmutableIntervalBalancedTreeTests
+    public class MutableIntervalBalancedTreeTests
     {
-        public ImmutableIntervalBalancedTreeTests(ITestOutputHelper testOutputHelper)
-        {
-        }
-
         [Fact]
         public void OnNullRootSearchMultipleShouldReturnEmptyList()
         {
-            var tree = new ImmutableIntervalBalancedTree<long, long>(new List<IntervalWithValue<long, long>>());
+            var tree = new MutableIntervalBalancedTree<long, long>(new List<IntervalWithValue<long, long>>());
             Assert.Empty(tree.Search(0, false, false));
         }
 
         [Fact]
         public void OnNullRootSearchFirstShouldReturnNull()
         {
-            var tree = new ImmutableIntervalBalancedTree<long, long>(new List<IntervalWithValue<long, long>>());
+            var tree = new MutableIntervalBalancedTree<long, long>(new List<IntervalWithValue<long, long>>());
             Assert.Null(tree.SearchFirst(0, false, false));
         }
 
         [Fact]
         public void OnNullRootGetEnumeratorShouldReturnEmptyListEnumerator()
         {
-            var tree = new ImmutableIntervalBalancedTree<long, long>(new List<IntervalWithValue<long, long>>());
+            var tree = new MutableIntervalBalancedTree<long, long>(new List<IntervalWithValue<long, long>>());
             using var enumerator = tree.GetEnumerator();
             Assert.Null(enumerator.Current);
+        }
+
+        [Fact]
+        public void OnNullRootContainsShouldReturnFalse()
+        {
+            var tree = new MutableIntervalBalancedTree<long, long>(new List<IntervalWithValue<long, long>>());
+            Assert.DoesNotContain(new IntervalWithValue<long, long>(0, 0, 0), tree);
+        }
+
+        [Fact]
+        public void OnNotNullRootAndExistingValueContainsShouldReturnTrue()
+        {
+            var intervalNodeFour = new IntervalWithValue<long, long>(0, 5, 1);
+            var intervalNodeFive = new IntervalWithValue<long, long>(10, 15, 2);
+            var intervalNodeSix = new IntervalWithValue<long, long>(20, 25, 0);
+            var intervalNodeSeven = new IntervalWithValue<long, long>(30, 35, 0);
+            var intervalNodeTwo = new IntervalWithValue<long, long>(5, 10, 1);
+            var intervalNodeThree = new IntervalWithValue<long, long>(25, 30, 2);
+            var intervalNodeOne = new IntervalWithValue<long, long>(15, 20, 0);
+            var treeIntervals = new List<IntervalWithValue<long, long>>
+            {
+                intervalNodeOne, intervalNodeTwo, intervalNodeThree, intervalNodeFour, intervalNodeFive,
+                intervalNodeSix, intervalNodeSeven
+            };
+            var tree = new MutableIntervalBalancedTree<long, long>(treeIntervals);
+            Assert.Contains(new IntervalWithValue<long, long>(10, 15, 2), tree);
+        }
+
+        [Fact]
+        public void OnNotNullRootAndNotExistingValueContainsShouldReturnFalse()
+        {
+            var intervalNodeFour = new IntervalWithValue<long, long>(0, 5, 1);
+            var intervalNodeFive = new IntervalWithValue<long, long>(10, 15, 2);
+            var intervalNodeSix = new IntervalWithValue<long, long>(20, 25, 0);
+            var intervalNodeSeven = new IntervalWithValue<long, long>(30, 35, 0);
+            var intervalNodeTwo = new IntervalWithValue<long, long>(5, 10, 1);
+            var intervalNodeThree = new IntervalWithValue<long, long>(25, 30, 2);
+            var intervalNodeOne = new IntervalWithValue<long, long>(15, 20, 0);
+            var treeIntervals = new List<IntervalWithValue<long, long>>
+            {
+                intervalNodeOne, intervalNodeTwo, intervalNodeThree, intervalNodeFour, intervalNodeFive,
+                intervalNodeSix, intervalNodeSeven
+            };
+            var tree = new MutableIntervalBalancedTree<long, long>(treeIntervals);
+            Assert.DoesNotContain(new IntervalWithValue<long, long>(100, 115, 2), tree);
+        }
+
+        [Fact]
+        public void ShouldRemoveCorrectlyIntervalFromTree()
+        {
+            var intervalNodeFour = new IntervalWithValue<long, long>(0, 5, 1);
+            var intervalNodeFive = new IntervalWithValue<long, long>(10, 15, 2);
+            var intervalNodeSix = new IntervalWithValue<long, long>(20, 25, 0);
+            var intervalNodeSeven = new IntervalWithValue<long, long>(30, 35, 0);
+            var intervalNodeTwo = new IntervalWithValue<long, long>(5, 10, 1);
+            var intervalNodeThree = new IntervalWithValue<long, long>(25, 30, 2);
+            var intervalNodeOne = new IntervalWithValue<long, long>(15, 20, 0);
+            var treeIntervals = new List<IntervalWithValue<long, long>>
+            {
+                intervalNodeOne, intervalNodeTwo, intervalNodeThree, intervalNodeFour, intervalNodeFive,
+                intervalNodeSix, intervalNodeSeven
+            };
+            var tree = new MutableIntervalBalancedTree<long, long>(treeIntervals);
+            Assert.True(tree.Remove(new IntervalWithValue<long, long>(15, 20, 0)));
+            Assert.Equal(6, tree.Count);
+            Assert.DoesNotContain(new IntervalWithValue<long, long>(15, 20, 0), tree);
+        }
+
+        [Fact]
+        public void ShouldClearCorrectlyTree()
+        {
+            var intervalNodeFour = new IntervalWithValue<long, long>(0, 5, 1);
+            var intervalNodeFive = new IntervalWithValue<long, long>(10, 15, 2);
+            var intervalNodeSix = new IntervalWithValue<long, long>(20, 25, 0);
+            var intervalNodeSeven = new IntervalWithValue<long, long>(30, 35, 0);
+            var intervalNodeTwo = new IntervalWithValue<long, long>(5, 10, 1);
+            var intervalNodeThree = new IntervalWithValue<long, long>(25, 30, 2);
+            var intervalNodeOne = new IntervalWithValue<long, long>(15, 20, 0);
+            var treeIntervals = new List<IntervalWithValue<long, long>>
+            {
+                intervalNodeOne, intervalNodeTwo, intervalNodeThree, intervalNodeFour, intervalNodeFive,
+                intervalNodeSix, intervalNodeSeven
+            };
+            var tree = new MutableIntervalBalancedTree<long, long>(treeIntervals);
+            Assert.Equal(7, tree.Count);
+            tree.Clear();
+            Assert.Empty(tree);
+        }
+
+        [Fact]
+        public void ShouldNotRemoveNotExistingIntervalFromTree()
+        {
+            var intervalNodeFour = new IntervalWithValue<long, long>(0, 5, 1);
+            var intervalNodeFive = new IntervalWithValue<long, long>(10, 15, 2);
+            var intervalNodeSix = new IntervalWithValue<long, long>(20, 25, 0);
+            var intervalNodeSeven = new IntervalWithValue<long, long>(30, 35, 0);
+            var intervalNodeTwo = new IntervalWithValue<long, long>(5, 10, 1);
+            var intervalNodeThree = new IntervalWithValue<long, long>(25, 30, 2);
+            var intervalNodeOne = new IntervalWithValue<long, long>(15, 20, 0);
+            var treeIntervals = new List<IntervalWithValue<long, long>>
+            {
+                intervalNodeOne, intervalNodeTwo, intervalNodeThree, intervalNodeFour, intervalNodeFive,
+                intervalNodeSix, intervalNodeSeven
+            };
+            var tree = new MutableIntervalBalancedTree<long, long>(treeIntervals);
+            Assert.False(tree.Remove(new IntervalWithValue<long, long>(115, 120, 0)));
+            Assert.Equal(7, tree.Count);
+        }
+
+        [Fact]
+        public void ShouldAddCorrectlyOnEmptyTree()
+        {
+            var tree = new MutableIntervalBalancedTree<long, long>(new List<IntervalWithValue<long, long>>());
+            Assert.Empty(tree);
+            tree.Add(new IntervalWithValue<long, long>(115, 120, 0));
+            Assert.Contains(new IntervalWithValue<long, long>(115, 120, 0), tree);
+            Assert.Single(tree);
+        }
+
+        [Fact]
+        public void ShouldReturnFalseOnRemoveOnEmptyTree()
+        {
+            var tree = new MutableIntervalBalancedTree<long, long>(new List<IntervalWithValue<long, long>>());
+            Assert.False(tree.Remove(new IntervalWithValue<long, long>(115, 120, 0)));
+        }
+
+        [Fact]
+        public void ShouldReturnFalseOnReadOnly()
+        {
+            Assert.False(new MutableIntervalBalancedTree<long, long>(new List<IntervalWithValue<long, long>>())
+                .IsReadOnly);
+        }
+
+        [Fact]
+        public void ShouldCopyCorrectlyTreeIntoArray()
+        {
+            var intervals = new IntervalWithValue<long, long>[7];
+            var intervalNodeFour = new IntervalWithValue<long, long>(0, 5, 1);
+            var intervalNodeFive = new IntervalWithValue<long, long>(10, 15, 2);
+            var intervalNodeSix = new IntervalWithValue<long, long>(20, 25, 0);
+            var intervalNodeSeven = new IntervalWithValue<long, long>(30, 35, 0);
+            var intervalNodeTwo = new IntervalWithValue<long, long>(5, 10, 1);
+            var intervalNodeThree = new IntervalWithValue<long, long>(25, 30, 2);
+            var intervalNodeOne = new IntervalWithValue<long, long>(15, 20, 0);
+            var treeIntervals = new List<IntervalWithValue<long, long>>
+            {
+                intervalNodeOne, intervalNodeTwo, intervalNodeThree, intervalNodeFour, intervalNodeFive,
+                intervalNodeSix, intervalNodeSeven
+            };
+            var tree = new MutableIntervalBalancedTree<long, long>(treeIntervals);
+            tree.CopyTo(intervals, 0);
+            treeIntervals.Sort();
+            var intervalsAsList = intervals.ToList();
+            intervalsAsList.Sort();
+            Assert.Equal(treeIntervals, intervalsAsList);
         }
 
         [Fact]
@@ -57,7 +207,7 @@ namespace Zorrero.Utils.IntervalLookup.Tests
                 intervalNodeOne, intervalNodeTwo, intervalNodeThree, intervalNodeFour, intervalNodeFive,
                 intervalNodeSix, intervalNodeSeven
             };
-            var tree = new ImmutableIntervalBalancedTree<long, long>(treeIntervals);
+            var tree = new MutableIntervalBalancedTree<long, long>(treeIntervals);
             Assert.Equal(nodeOne, tree.Root);
         }
 
@@ -80,7 +230,7 @@ namespace Zorrero.Utils.IntervalLookup.Tests
             {
                 intervalNodeOne, intervalNodeTwo, intervalNodeThree, intervalNodeFour, intervalNodeFive, intervalNodeSix
             };
-            var tree = new ImmutableIntervalBalancedTree<long, long>(treeIntervals);
+            var tree = new MutableIntervalBalancedTree<long, long>(treeIntervals);
             Assert.Equal(nodeOne, tree.Root);
         }
 
@@ -99,7 +249,7 @@ namespace Zorrero.Utils.IntervalLookup.Tests
                 intervalNodeOne, intervalNodeTwo, intervalNodeThree, intervalNodeFour, intervalNodeFive,
                 intervalNodeSix, intervalNodeSeven
             };
-            var tree = new ImmutableIntervalBalancedTree<long, long>(treeIntervals);
+            var tree = new MutableIntervalBalancedTree<long, long>(treeIntervals);
             var result = tree.Search(3, false, false);
             Assert.Single(result);
             Assert.Equal(intervalNodeFour, result.First());
@@ -110,7 +260,7 @@ namespace Zorrero.Utils.IntervalLookup.Tests
         {
             var intervals = new List<IntervalWithValue<long, long>>();
             for (var i = 0; i < 50000000; i += 50) intervals.Add(new IntervalWithValue<long, long>(i, i + 50, 0));
-            var tree = new ImmutableIntervalBalancedTree<long, long>(intervals);
+            var tree = new MutableIntervalBalancedTree<long, long>(intervals);
 
             var result = tree.Search(25, false, false);
             Assert.Single(result);
@@ -121,7 +271,7 @@ namespace Zorrero.Utils.IntervalLookup.Tests
         {
             var intervals = new List<IntervalWithValue<long, long>>();
             for (var i = 0; i < 50000000; i += 50) intervals.Add(new IntervalWithValue<long, long>(i, i + 50, 0));
-            var tree = new ImmutableIntervalBalancedTree<long, long>(intervals);
+            var tree = new MutableIntervalBalancedTree<long, long>(intervals);
             var expected = new IntervalWithValue<long, long>(0, 50, 0);
 
             var result = tree.SearchFirst(25, false, false);
@@ -133,7 +283,7 @@ namespace Zorrero.Utils.IntervalLookup.Tests
         {
             var intervals = new List<IntervalWithValue<long, long>>();
             for (var i = 0; i < 50000000; i += 50) intervals.Add(new IntervalWithValue<long, long>(i, i + 50, 0));
-            var tree = new ImmutableIntervalBalancedTree<long, long>(intervals);
+            var tree = new MutableIntervalBalancedTree<long, long>(intervals);
             var expected = new IntervalWithValue<long, long>(49999900, 50000000, 0);
 
             var result = tree.SearchFirst(49999925, false, false);
@@ -145,7 +295,7 @@ namespace Zorrero.Utils.IntervalLookup.Tests
         {
             var intervals = new List<IntervalWithValue<long, long>>();
             for (var i = 0; i < 50000000; i += 50) intervals.Add(new IntervalWithValue<long, long>(i, i + 50, 0));
-            var tree = new ImmutableIntervalBalancedTree<long, long>(intervals);
+            var tree = new MutableIntervalBalancedTree<long, long>(intervals);
 
             var result = tree.SearchFirst(-1, false, false);
             Assert.Null(result);
@@ -156,7 +306,7 @@ namespace Zorrero.Utils.IntervalLookup.Tests
         {
             var intervals = new List<IntervalWithValue<long, long>>();
             for (var i = 0; i < 25000000; i += 25) intervals.Add(new IntervalWithValue<long, long>(i, i + 50, 0));
-            var tree = new ImmutableIntervalBalancedTree<long, long>(intervals);
+            var tree = new MutableIntervalBalancedTree<long, long>(intervals);
 
             var result = tree.Search(100000, true, true);
             Assert.Equal(3, result.Count);
@@ -177,7 +327,7 @@ namespace Zorrero.Utils.IntervalLookup.Tests
                 intervalNodeOne, intervalNodeTwo, intervalNodeThree, intervalNodeFour, intervalNodeFive,
                 intervalNodeSix, intervalNodeSeven
             };
-            var tree = new ImmutableIntervalBalancedTree<long, long>(treeIntervals);
+            var tree = new MutableIntervalBalancedTree<long, long>(treeIntervals);
             using var enumerator = tree.GetEnumerator();
             var enumeratorList = new List<IntervalWithValue<long, long>>();
             while (enumerator.MoveNext()) enumeratorList.Add(enumerator.Current);
@@ -201,7 +351,7 @@ namespace Zorrero.Utils.IntervalLookup.Tests
                 intervalNodeOne, intervalNodeTwo, intervalNodeThree, intervalNodeFour, intervalNodeFive,
                 intervalNodeSix, intervalNodeSeven
             };
-            var tree = new ImmutableIntervalBalancedTree<long, long>(treeIntervals);
+            var tree = new MutableIntervalBalancedTree<long, long>(treeIntervals);
             Assert.Equal(7, tree.Count);
         }
 
@@ -210,7 +360,7 @@ namespace Zorrero.Utils.IntervalLookup.Tests
         {
             var intervals = new List<IntervalWithValue<long, long>>();
             for (var i = 0; i < 25000000; i += 25) intervals.Add(new IntervalWithValue<long, long>(i, i + 50, 0));
-            var tree = new ImmutableIntervalBalancedTree<long, long>(intervals);
+            var tree = new MutableIntervalBalancedTree<long, long>(intervals);
             Assert.Equal(1000000, tree.Count);
         }
 
@@ -229,7 +379,7 @@ namespace Zorrero.Utils.IntervalLookup.Tests
                 intervalNodeOne, intervalNodeTwo, intervalNodeThree, intervalNodeFour, intervalNodeFive,
                 intervalNodeSix, intervalNodeSeven
             };
-            var tree = new ImmutableIntervalBalancedTree<long, long>(treeIntervals, true);
+            var tree = new MutableIntervalBalancedTree<long, long>(treeIntervals, true);
             Assert.Equal(7, tree.Count);
         }
 
@@ -249,7 +399,7 @@ namespace Zorrero.Utils.IntervalLookup.Tests
                 intervalNodeSix, intervalNodeSeven
             };
             Assert.Throws<IntervalsOverlappedException>(() =>
-                new ImmutableIntervalBalancedTree<long, long>(treeIntervals, true));
+                new MutableIntervalBalancedTree<long, long>(treeIntervals, true));
         }
 
         [Fact]
@@ -268,7 +418,7 @@ namespace Zorrero.Utils.IntervalLookup.Tests
                 intervalNodeSix, intervalNodeSeven
             };
             Assert.Throws<IntervalsOverlappedException>(() =>
-                new ImmutableIntervalBalancedTree<long, long>(treeIntervals, true));
+                new MutableIntervalBalancedTree<long, long>(treeIntervals, true));
         }
 
         [Fact]
@@ -287,7 +437,7 @@ namespace Zorrero.Utils.IntervalLookup.Tests
                 intervalNodeSix, intervalNodeSeven
             };
             Assert.Throws<IntervalsOverlappedException>(() =>
-                new ImmutableIntervalBalancedTree<long, long>(treeIntervals, true));
+                new MutableIntervalBalancedTree<long, long>(treeIntervals, true));
         }
     }
 }
